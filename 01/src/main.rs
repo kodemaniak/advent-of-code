@@ -4,7 +4,7 @@ use std::{
 };
 
 fn main() -> Result<(), std::io::Error> {
-    let file = File::open("../input")?;
+    let file = File::open("input")?;
 
     let lines: Vec<u16> = BufReader::new(file)
         .lines()
