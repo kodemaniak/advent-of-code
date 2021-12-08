@@ -123,13 +123,13 @@ fn derive_display(random: String, output: String) -> u32 {
 
 fn bitmask_for_char(c: char) -> u32 {
     match c {
-        'a' => 0b00000001,
-        'b' => 0b00000010,
-        'c' => 0b00000100,
-        'd' => 0b00001000,
-        'e' => 0b00010000,
-        'f' => 0b00100000,
-        'g' => 0b01000000,
+        'a' => 1,
+        'b' => 2,
+        'c' => 4,
+        'd' => 8,
+        'e' => 16,
+        'f' => 32,
+        'g' => 64,
         _ => panic!("unexpected char"),
     }
 }
