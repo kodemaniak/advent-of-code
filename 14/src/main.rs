@@ -10,9 +10,9 @@ fn main() -> Result<(), std::io::Error> {
 
     let mut lines = BufReader::new(file).lines().flatten();
     let template = lines.next().unwrap();
-    let insert_rules: Vec<String> = lines.skip(1).collect();
+    let insert_rules = lines.skip(1);
     let mut map = HashMap::new();
-    for rule in insert_rules.into_iter() {
+    for rule in insert_rules {
         let parts: Vec<&str> = rule.split(" -> ").collect();
         let key = String::from_str(parts[0]).unwrap();
         let val = String::from_str(parts[1]).unwrap();
@@ -25,30 +25,7 @@ fn main() -> Result<(), std::io::Error> {
     Ok(())
 }
 
-// NNCB
-// NN NC CB
-// NC CN  NB BC  CH HB  N C N B C H B
-// NB BC  CC CN  NB BB  BB BC  CB BH  HC CB
-// -- --  --     --        --
-// (NB, 2) (BC, 2) (CC, 1) (CN, 1) (BB, 2) (CB, 2) (BH, 1) (HC, 1)
-
-// (NB, 4) x
-// (BB, 4) x
-// (BC, 3) x
-// (CN, 2) x
-// (NC, 1) x
-// (CC, 1) x
-// (BN, 2) x
-// (CH, 2) x
-// (HB, 3) x
-// (BH, 1) x
-// (HH, 1) x
-
-// N 5
-// B 11
-// C 5
-// H 4
-
+#[allow(clippy::ptr_arg)]
 fn part1(template: &String, insert_rules: &HashMap<String, String>) {
     let mut current_template = template.clone();
     for _ in 0..10 {
@@ -85,9 +62,10 @@ fn part1(template: &String, insert_rules: &HashMap<String, String>) {
     println!("Result: {}", result);
 }
 
+#[allow(clippy::ptr_arg)]
 fn part2(template: &String, insert_rules: &HashMap<String, String>) {
     let last = template.chars().last().unwrap();
-    let mut current_template: Vec<(char, char)> = template
+    let current_template: Vec<(char, char)> = template
         .clone()
         .chars()
         .collect::<Vec<char>>()
@@ -102,7 +80,7 @@ fn part2(template: &String, insert_rules: &HashMap<String, String>) {
     for pair in current_template {
         *counts.entry(pair).or_insert(0_u64) += 1_u64;
     }
-    for i in 0..40 {
+    for _ in 0..40 {
         let mut new_counts = HashMap::new();
         for ((l, r), count) in counts {
             let key = format!("{}{}", l, r);
@@ -118,7 +96,7 @@ fn part2(template: &String, insert_rules: &HashMap<String, String>) {
     }
 
     let mut element_counts: HashMap<char, u64> = HashMap::new();
-    for ((l, r), count) in counts.iter() {
+    for ((l, _r), count) in counts.iter() {
         *element_counts.entry(*l).or_insert(0_u64) += count;
         // *element_counts.entry(*r).or_insert(0_u64) += count;
     }

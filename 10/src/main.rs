@@ -1,8 +1,7 @@
 use std::{
-    collections::{HashSet, VecDeque},
+    collections::VecDeque,
     fs::File,
     io::{BufRead, BufReader},
-    ops::RangeBounds,
 };
 
 fn main() -> Result<(), std::io::Error> {
@@ -50,6 +49,7 @@ fn part2(lines: Vec<String>) {
     println!("The score for part 2 is {}", middle_score);
 }
 
+#[allow(clippy::ptr_arg)]
 fn find_illegal_char(line: &String) -> Option<char> {
     let mut stack = VecDeque::new();
 
@@ -95,6 +95,7 @@ fn score(char: char) -> u32 {
     }
 }
 
+#[allow(clippy::ptr_arg)]
 fn get_incomplete_stack(line: &String) -> VecDeque<char> {
     let mut stack = VecDeque::new();
 

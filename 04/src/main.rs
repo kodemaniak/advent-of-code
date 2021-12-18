@@ -1,7 +1,6 @@
 use std::{
     fs::File,
     io::{prelude::*, BufReader},
-    ops::Rem,
 };
 
 fn main() -> Result<(), std::io::Error> {
@@ -34,7 +33,7 @@ fn main() -> Result<(), std::io::Error> {
             board.update(*draw);
         }
 
-        if let Some((idx, winner)) = boards.iter().enumerate().find(|(_, b)| b.is_finished()) {
+        if let Some((_idx, winner)) = boards.iter().enumerate().find(|(_, b)| b.is_finished()) {
             let score = winner.score();
             let final_score = score * *draw as u32;
             if first_winner_score.is_none() {

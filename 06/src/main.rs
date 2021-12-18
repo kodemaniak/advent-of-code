@@ -28,7 +28,7 @@ fn main() -> Result<(), std::io::Error> {
     let pop_80: u64 = population.iter().map(|(_, count)| count).sum();
     println!("Number of fish after 80 days: {}", pop_80);
 
-    for i in 0..176 {
+    for _ in 0..176 {
         let mut spawned_fish = 0_u64;
         for (fish, count) in population.iter_mut() {
             if *fish == 0 {
