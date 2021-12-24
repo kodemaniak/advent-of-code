@@ -1,7 +1,5 @@
 use std::collections::HashMap;
-use std::iter::FromIterator;
 use std::{
-    collections::HashSet,
     fs::File,
     io::{BufRead, BufReader},
 };
@@ -210,7 +208,7 @@ impl Grid {
     fn print(&self) {
         for y in 0..self.height {
             for x in 0..self.width {
-                if (self.is_marked(x, y)) {
+                if self.is_marked(x, y) {
                     print!("\x1b[2m{}", self.get(x, y));
                 } else {
                     print!("\x1b[0m{}", self.get(x, y))
