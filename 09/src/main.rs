@@ -32,8 +32,6 @@ fn part2(mut grid: Grid) {
 
     let mut basin_sizes = Vec::new();
 
-    dbg!(&low_points);
-
     for (x, y) in low_points.iter() {
         grid.clear_marks();
         grid.mark_basin(*x, *y);
@@ -172,28 +170,25 @@ impl Grid {
     }
 
     fn mark_basin(&mut self, x: usize, y: usize) {
-        let mut cur_level = self.get(x, y);
         self.mark(x, y);
 
-        while self.mark_next_level(cur_level) {
-            cur_level += 1;
-        }
+        while self.mark_next_level() {}
     }
 
-    fn mark_next_level(&mut self, level: u32) -> bool {
-        let next_level = level + 1;
-        if next_level == 9 {
-            return false;
-        }
-
+    fn mark_next_level(&mut self) -> bool {
         let mut changed = false;
         for y in 0..self.height {
             for x in 0..self.width {
-                let value = self.get(x, y);
-                if value == level && self.is_marked(x, y) {
-                    let neighbors = self.get_neighbors(x, y);
+                let level = self.get(x, y);
+                if self.is_marked(x, y) {
+                    let neighbors: Vec<(usize, usize, u32)> = self
+                        .get_neighbors(x, y)
+                        .iter()
+                        .filter(|n| !self.is_marked(n.0, n.1) && self.get(n.0, n.1) < 9)
+                        .copied()
+                        .collect();
                     for (x, y, l) in neighbors {
-                        if l == next_level {
+                        if level <= l {
                             self.mark(x, y);
                             changed = true;
                         }
@@ -206,6 +201,7 @@ impl Grid {
     }
 
     fn print(&self) {
+        println!("Size: {}", self.get_basin_size());
         for y in 0..self.height {
             for x in 0..self.width {
                 if self.is_marked(x, y) {
