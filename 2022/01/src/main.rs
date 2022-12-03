@@ -5,7 +5,9 @@ use std::{
 };
 
 fn main() -> Result<()> {
-    let file = File::open("input")?;
+    let args: Vec<String> = std::env::args().collect();
+
+    let file = File::open(&args[1])?;
 
     let lines: Vec<u16> = BufReader::new(file)
         .lines()
